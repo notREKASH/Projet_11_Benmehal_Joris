@@ -1,0 +1,39 @@
+.header {
+  &__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+
+    &__link {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+
+      &:active {
+        color: #42b983;
+      }
+
+      & img {
+        max-width: 100%;
+        width: 200px;
+      }
+    }
+
+    &__signin {
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      & i {
+        margin: 0 0.5rem;
+      }
+    }
+  }
+}
