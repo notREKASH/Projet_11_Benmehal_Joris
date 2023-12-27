@@ -11,12 +11,16 @@ export default function authReducer(state = intialState, action) {
         isAuth: true,
         token: action.payload,
       };
-
     case "USER_LOGOUT":
       return {
         ...state,
         isAuth: false,
         token: null,
+      };
+    case "REMEMBER_ME":
+      return {
+        ...state,
+        isAuth: true,
       };
     default:
       return state;

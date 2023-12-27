@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { getToken } from "../../actions/auth.action";
 import "./ConnectionForm.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function ConnectionForm() {
+  const [isRememberMe, setIsRememberMe] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state?.auth?.token);
@@ -20,12 +21,21 @@ function ConnectionForm() {
     e.target.reset();
   };
 
+  const handleRememberMe = (e) => {
+    if (e.target.checked) {
+      setIsRememberMe(true);
+    } else {
+      setIsRememberMe(false);
+    }
+  };
+
   useEffect(() => {
     if (isAuth && token) {
-      sessionStorage.setItem("token", token);
+      const storage = isRememberMe ? localStorage : sessionStorage;
+      storage.setItem("token", token);
       navigate("/user");
     }
-  }, [isAuth, token, navigate]);
+  }, [isAuth, token, isRememberMe, navigate]);
 
   return (
     <form className="form" onSubmit={(e) => handleForm(e)}>
@@ -38,7 +48,12 @@ function ConnectionForm() {
         <input type="password" id="password" name="password" />
       </div>
       <div className="form__remember">
-        <input type="checkbox" id="remember-me" name="remember-me" />
+        <input
+          type="checkbox"
+          id="remember-me"
+          name="remember-me"
+          onChange={handleRememberMe}
+        />
         <label htmlFor="remember-me">Remember me</label>
       </div>
       <button className="form--submitBtn" type="submit">

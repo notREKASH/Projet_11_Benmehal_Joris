@@ -4,7 +4,10 @@ import Home from "./pages/Home/Home";
 import SignIn from "./pages/SignIn/SignIn";
 import User from "./pages/User/User";
 import SignUp from "./pages/SignUp/SignUp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "./actions/user.action";
+import { useEffect } from "react";
+import { rememberMe } from "./actions/auth.action";
 
 function VerifyToken() {
   const isAuth = useSelector((state) => state?.auth?.isAuth);
@@ -17,6 +20,18 @@ function VerifyToken() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      dispatch(getUser(token));
+      dispatch(rememberMe());
+    }
+  }, [dispatch, token]);
+
   return (
     <>
       <Routes>

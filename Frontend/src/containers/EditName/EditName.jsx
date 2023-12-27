@@ -9,7 +9,8 @@ function EditName({ setIsEditing }) {
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state?.user?.userData);
-  const token = sessionStorage.getItem("token");
+  const token =
+    sessionStorage.getItem("token") || localStorage.getItem("token");
 
   const handleClick = () => {
     setIsClicked(true);

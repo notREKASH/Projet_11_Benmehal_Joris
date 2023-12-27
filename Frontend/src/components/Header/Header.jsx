@@ -6,11 +6,11 @@ import { logoutUser } from "../../actions/user.action";
 
 function Header() {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state?.auth?.isAuth);
   const userData = useSelector((state) => state?.user?.userData);
 
   const handleSignOut = () => {
     sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     dispatch(logoutUser());
   };
 
@@ -22,7 +22,7 @@ function Header() {
           <h1 className="sr_only">Argent Bank</h1>
         </Link>
         <div>
-          {isAuth ? (
+          {userData ? (
             <Link to="/user" className="header__nav__signin">
               <i className="fa fa-user-circle"></i>
               {userData?.userName}
@@ -33,7 +33,7 @@ function Header() {
             </Link>
           )}
 
-          {isAuth ? (
+          {userData ? (
             <Link className="header__nav__signin" onClick={handleSignOut}>
               <i className="fa fa-sign-out"></i>Sign Out
             </Link>

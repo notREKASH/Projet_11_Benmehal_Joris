@@ -25,3 +25,9 @@ export const getToken = (email, password) => {
     }
   };
 };
+
+export const rememberMe = () => {
+  return {
+    type: "REMEMBER_ME",
+  };
+};
