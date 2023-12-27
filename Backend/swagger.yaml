@@ -10,12 +10,17 @@ schemes:
   - http
 
 paths:
-  /transactions:
+  /{accountId}/transactions:
     get:
       security:
         - Bearer: []
-      summary: Liste toutes les transactions pour le mois en cours, groupées par compte
-      description: Retourne une liste de toutes les transactions pour l'utilisateur authentifié, divisées par compte.
+      summary: Liste toutes les transactions pour un compte spécifié
+      description: Retourne une liste de toutes les transactions pour un compte donné.
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: string
       responses:
         "200":
           description: Une liste de transactions
@@ -26,13 +31,17 @@ paths:
         "401":
           description: Non autorisé
 
-  /transactions/{transactionId}:
+  /{accountId}/transactions/{transactionId}:
     get:
       security:
         - Bearer: []
       summary: Détails d'une transaction spécifique
       description: Retourne les détails d'une transaction spécifique en utilisant son ID.
       parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: string
         - name: transactionId
           in: path
           required: true
@@ -47,34 +56,16 @@ paths:
         "404":
           description: Transaction non trouvée
 
-    post:
-      security:
-        - Bearer: []
-      summary: Créer une nouvelle transaction
-      description: Crée une nouvelle transaction pour l'utilisateur authentifié.
-      parameters:
-        - in: body
-          name: transaction
-          description: Les attributs de la transaction à créer
-          required: true
-          schema:
-            $ref: "#/definitions/Transaction"
-      responses:
-        "201":
-          description: Transaction créée
-          schema:
-            $ref: "#/definitions/Transaction"
-        "401":
-          description: Non autorisé
-        "404":
-          description: Compte non trouvé
-
-    put:
+    patch:
       security:
         - Bearer: []
       summary: Modifier une transaction existante
       description: Permet de modifier les détails d'une transaction existante.
       parameters:
+        - name: accountId
+          in: path
+          required: true
+          type: string
         - name: transactionId
           in: path
           required: true
@@ -93,40 +84,32 @@ paths:
         "404":
           description: Transaction non trouvée
 
-    delete:
-      security:
-        - Bearer: []
-      summary: Supprimer une transaction
-      description: Supprime une transaction spécifique de l'utilisateur.
-      parameters:
-        - name: transactionId
-          in: path
-          required: true
-          type: string
-      responses:
-        "200":
-          description: Transaction supprimée
-        "401":
-          description: Non autorisé
-        "404":
-          description: Transaction non trouvée
 securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
     in: header
+
 definitions:
   Transaction:
     type: object
     properties:
       id:
         type: string
+        readOnly: true
       date:
         type: string
         format: date
-      description:
-        type: string
+        readOnly: true
       amount:
         type: number
+        readOnly: true
       balance:
         type: number
+        readOnly: true
+      category:
+        type: string
+        description: La catégorie de la transaction
+      note:
+        type: string
+        description: Une note personnelle ajoutée à la transaction
