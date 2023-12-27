@@ -75,18 +75,14 @@ export const logoutUser = () => {
 // Add New User
 
 export const addUser = (email, password, firstName, lastName, userName) => {
-  return async (dispatch) => {
+  return async () => {
     try {
-      const res = await axios.post("http://localhost:3001/api/v1/user/signup", {
+      await axios.post("http://localhost:3001/api/v1/user/signup", {
         email,
         password,
         firstName,
         lastName,
         userName,
-      });
-      dispatch({
-        type: "ADD_USER",
-        payload: res.data,
       });
     } catch (err) {
       const message = err.response.data.message;
