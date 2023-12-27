@@ -12,9 +12,11 @@ import rootreducer from "./reducers";
 
 // Store
 
+import process from "process";
+
 const store = configureStore({
   reducer: rootreducer,
-  devTools: true,
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
