@@ -63,6 +63,8 @@ export const updateUser = (token, username) => {
 export const logoutUser = () => {
   return async (dispatch) => {
     try {
+      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       dispatch({
         type: "USER_LOGOUT",
       });

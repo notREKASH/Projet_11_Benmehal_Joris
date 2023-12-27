@@ -9,8 +9,6 @@ function Header() {
   const userData = useSelector((state) => state?.user?.userData);
 
   const handleSignOut = () => {
-    sessionStorage.removeItem("token");
-    localStorage.removeItem("token");
     dispatch(logoutUser());
   };
 
